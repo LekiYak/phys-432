@@ -1,8 +1,8 @@
 """
+This script visualises the time evolution of two vortex rings as they leapfrog. The output of this script is a series of images, each corresponding to a frame of the time evolution. These images can be combined to form a gif using another script, software, or online. This script is designed to simulate the leapfroggin up until one of the vortexes exits the simulation domain, at which point the images will cease to be generated and the script will throw an IndexError. By not immediately saving the images as a gif, the user can choose to stop the simulation at any time and still have the images to work with.
 
-
-
-
+@Author: Lekima Yakuden (github.com/LekiYak)
+Date: 2024-02-12
 """
 import numpy as np
 import matplotlib.pyplot as plt
