@@ -1,0 +1,54 @@
+"""
+PHYS 432 Problem Set 3, Question 3
+
+@Author: Lekima Yakuden
+Date: 2024-02-26
+"""
+
+import numpy as np 
+import matplotlib.pyplot as plt
+import imageio
+
+## Initial conditions and parameters
+# grid parameters
+L      = 1 # length of the simulation in m
+Ngrid  = 200 # number of grid points
+Nsteps = 500 # number of time steps
+dt     = 0.02 # time step
+dx     = L/Ngrid # grid spacing
+
+# constants
+gamma = 1.4 # adiabatic index
+
+# initial conditions
+x = np.arange(Ngrid) * dx
+print(x)
+rho = np.ones(Ngrid) # density
+print(rho)
+rho_u = np.zeros(Ngrid) # momentum density
+rho_e = np.ones(Ngrid) # energy density
+
+advection = np.zeros(Ngrid) # rightgoing advection
+right_flux = np.zeros(Ngrid) # rightgoing flux
+
+## donor cell advection
+def advection(q, rho, rho_u, dx, dt, i):
+
+    right_advection = 0.5 * (rho_u[i] / rho[i] + rho_u[i+1] / rho[i+1])
+
+    def right_flux(q, i):
+        if right_advection > 0:
+            return right_advection * q[i]
+        elif right_advection < 0:
+            return right_advection * q[i+1]
+        else:
+            return q[i]
+        
+    right_flux[i] = right_flux(q, i)
+
+    q[i] = q[i] - dt/dx * (right_flux(q, rho, rho_u, i) - right_flux[i-1])
+
+    return
+
+## time evolution
+
